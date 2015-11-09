@@ -1,7 +1,7 @@
 package com.depaul.daniel.mybudget;
 
 /*
- * Data Object
+ * Data Object Entry
 */
 
 public class Entry {
