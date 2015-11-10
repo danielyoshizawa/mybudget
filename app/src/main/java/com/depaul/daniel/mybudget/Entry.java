@@ -22,8 +22,8 @@ public class Entry {
         this.isIncome = isIncome;
     }
 
-    public double GetValue() {
-        return value;
+    public String GetValue() {
+        return Double.toString(value);
     }
 
     public boolean IsIncome() {

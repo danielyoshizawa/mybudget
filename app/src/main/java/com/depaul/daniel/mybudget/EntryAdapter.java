@@ -40,21 +40,12 @@ public class EntryAdapter extends BaseAdapter {
         if (convertView == null) {
             if (inflater == null)
                 inflater = (LayoutInflater) listView.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.activity_input_details, parent, false);
+            row = inflater.inflate(R.layout.activity_my_budget, parent, false);
         }
 
         TextView value = (TextView) row.findViewById(R.id.EntryValue);
-        String valueStr = Double.toString(Entries[position].GetValue());
-        value.setText(valueStr);
+        value.setText(Entries[position].GetValue());
 
-        /*ImageView icon = (ImageView) row.findViewById(R.id.image);
-        TextView name = (TextView) row.findViewById(R.id.text1);
-        TextView description = (TextView) row.findViewById(R.id.text2);
-
-        ItemList band = BANDS[position];
-        name.setText(band.getName());
-        description.setText(band.getShortDescription());
-        icon.setImageResource(band.getIconResource(band.getType()));*/
         return row;
     }
 

@@ -1,29 +1,30 @@
 package com.depaul.daniel.mybudget;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.TextView;
 
-public class MyBudget extends ListActivity {
+public class EntryDetails extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setListAdapter(new EntryAdapter(this));
+        setContentView(R.layout.activity_entry_details);
     }
 
-
     @Override
-    protected void onListItemClick(android.widget.ListView l, View v, int position, long id) {
-        Intent intent = new Intent(MyBudget.this, EntryDetails.class);
-        String valueStr = EntryAdapter.Entries[position].GetValue();
-        intent.putExtra("EntryValue", valueStr);
-        startActivity(intent);
+    protected void onStart() {
+
+        super.onStart();
+        // The activity is about to become visible.
+        Intent intent = getIntent();
+        if (intent != null) {
+            TextView name = (TextView) findViewById(R.id.EntryValue);
+            name.setText(intent.getCharSequenceExtra("EntryValue"));
+        }
     }
 
     @Override
@@ -47,4 +48,5 @@ public class MyBudget extends ListActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

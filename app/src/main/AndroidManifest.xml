@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".EntryDetails"
+            android:label="@string/entry_details" >
+        </activity>
     </application>
 
 </manifest>
