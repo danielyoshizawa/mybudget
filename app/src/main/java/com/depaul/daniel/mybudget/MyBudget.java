@@ -11,7 +11,7 @@ public class MyBudget extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setListAdapter(new EntryAdapter(this));
     }
 
     @Override

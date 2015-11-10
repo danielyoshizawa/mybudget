@@ -21,17 +21,17 @@ public class EntryAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return Entries.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return Entries[position];
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -40,8 +40,12 @@ public class EntryAdapter extends BaseAdapter {
         if (convertView == null) {
             if (inflater == null)
                 inflater = (LayoutInflater) listView.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.activity_my_budget, parent, false);
+            row = inflater.inflate(R.layout.activity_input_details, parent, false);
         }
+
+        TextView value = (TextView) row.findViewById(R.id.EntryValue);
+        String valueStr = Double.toString(Entries[position].GetValue());
+        value.setText(valueStr);
 
         /*ImageView icon = (ImageView) row.findViewById(R.id.image);
         TextView name = (TextView) row.findViewById(R.id.text1);
@@ -53,4 +57,9 @@ public class EntryAdapter extends BaseAdapter {
         icon.setImageResource(band.getIconResource(band.getType()));*/
         return row;
     }
+
+    public static final Entry[] Entries = {
+        new Entry(100.00, true),
+        new Entry(120.00, false)
+    };
 }
