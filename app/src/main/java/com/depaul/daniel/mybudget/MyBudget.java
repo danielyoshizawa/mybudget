@@ -11,17 +11,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 
 public class MyBudget extends Activity {
 
     private ListView listView;
+    private Button addButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setListAdapter(new EntryAdapter(this));
         setContentView(R.layout.activity_my_budget);
+
+        addButton = (Button) findViewById(R.id.button_add_activity);
 
         listView = (ListView) findViewById(R.id.entry_list);
         listView.setAdapter(new EntryAdapter(this));
@@ -33,6 +36,14 @@ public class MyBudget extends Activity {
                 Intent intent = new Intent(MyBudget.this, EntryDetails.class);
                 String valueStr = EntryAdapter.Entries.GetEntryAt(position).GetValue();
                 intent.putExtra("EntryValue", valueStr);
+                startActivity(intent);
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyBudget.this, EntityAdd.class);
                 startActivity(intent);
             }
         });
