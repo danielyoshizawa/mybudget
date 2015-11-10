@@ -17,16 +17,18 @@ public class EntryAdapter extends BaseAdapter {
 
     public EntryAdapter(ListActivity listView) {
         this.listView = listView;
+        Entries.Add(new Entry(100.00, true));
+        Entries.Add(new Entry(200.00, false));
     }
 
     @Override
     public int getCount() {
-        return Entries.length;
+        return Entries.Size();
     }
 
     @Override
     public Object getItem(int position) {
-        return Entries[position];
+        return Entries.GetEntryAt(position);
     }
 
     @Override
@@ -44,13 +46,11 @@ public class EntryAdapter extends BaseAdapter {
         }
 
         TextView value = (TextView) row.findViewById(R.id.EntryValue);
-        value.setText(Entries[position].GetValue());
+        value.setText(Entries.GetEntryAt(position).GetValue());
 
         return row;
     }
 
-    public static final Entry[] Entries = {
-        new Entry(100.00, true),
-        new Entry(120.00, false)
-    };
+    // Move this to a Manager
+    public static final EntryManager Entries = new EntryManager();
 }
