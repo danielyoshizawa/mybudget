@@ -1,5 +1,6 @@
 package com.depaul.daniel.mybudget;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,10 +14,10 @@ import android.widget.TextView;
 public class EntryAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
-    private ListActivity listView;
+    private Activity context;
 
-    public EntryAdapter(ListActivity listView) {
-        this.listView = listView;
+    public EntryAdapter(Activity context) {
+        this.context = context;
         Entries.Add(new Entry(100.00, true));
         Entries.Add(new Entry(200.00, false));
     }
@@ -41,8 +42,8 @@ public class EntryAdapter extends BaseAdapter {
         View row = convertView;
         if (convertView == null) {
             if (inflater == null)
-                inflater = (LayoutInflater) listView.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.activity_my_budget, parent, false);
+                inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            row = inflater.inflate(R.layout.entry_layout, parent, false);
         }
 
         TextView value = (TextView) row.findViewById(R.id.EntryValue);
