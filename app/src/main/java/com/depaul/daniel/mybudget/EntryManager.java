@@ -33,4 +33,8 @@ public class EntryManager {
     public int Size() {
         return entryList.size();
     }
+
+    public void RemoveAt(int position) {
+        entryList.remove(position);
+    }
 }

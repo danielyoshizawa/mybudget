@@ -5,16 +5,32 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class EntryDetails extends Activity {
 
     private int position;
+    private EntryManager entryManager;
+    private Button removeButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry_details);
+
+        // TODO : Refactor
+        entryManager = EntryManager.getInstance();
+        removeButton = (Button) findViewById(R.id.button_remove_detail);
+        removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                entryManager.RemoveAt(position);
+                finish();
+            }
+        });
     }
 
     @Override
