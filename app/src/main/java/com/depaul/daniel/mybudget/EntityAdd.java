@@ -2,6 +2,7 @@ package com.depaul.daniel.mybudget;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,8 @@ public class EntityAdd extends Activity {
         Entries = EntryManager.getInstance();
         valueText = (EditText) findViewById(R.id.entity_add_value);
         addButton = (Button) findViewById(R.id.entity_add_button);
+
+        valueText.setFilters(new InputFilter[] {new CurrencyFormatInputFilter()});
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
