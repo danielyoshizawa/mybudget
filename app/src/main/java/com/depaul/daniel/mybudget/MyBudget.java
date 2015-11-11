@@ -29,24 +29,9 @@ public class MyBudget extends Activity {
         listView = (ListView) findViewById(R.id.entry_list);
         listView.setAdapter(new EntryAdapter(this));
 
-        listView.setOnItemClickListener(new OnItemClickListener() {
+        listView.setOnItemClickListener(new ListViewOnClickListener(this, MyBudget.this));
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MyBudget.this, EntryDetails.class);
-                String valueStr = EntryAdapter.Entries.GetEntryAt(position).GetValue();
-                intent.putExtra("EntryValue", valueStr);
-                startActivity(intent);
-            }
-        });
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyBudget.this, EntityAdd.class);
-                startActivity(intent);
-            }
-        });
+        addButton.setOnClickListener(new AddOnClickListener(this, MyBudget.this));
     }
 
     @Override
