@@ -12,11 +12,10 @@ public class EntryAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private Activity context;
+    private EntryManager Entries = EntryManager.getInstance();
 
     public EntryAdapter(Activity context) {
         this.context = context;
-        Entries.Add(new Entry(100.00, true));
-        Entries.Add(new Entry(200.00, false));
     }
 
     @Override
@@ -48,7 +47,4 @@ public class EntryAdapter extends BaseAdapter {
 
         return row;
     }
-
-    // Move this to a Manager
-    public static final EntryManager Entries = new EntryManager();
 }

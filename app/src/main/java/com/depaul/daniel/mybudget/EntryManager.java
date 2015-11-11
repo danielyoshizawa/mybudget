@@ -9,10 +9,17 @@ import java.util.ArrayList;
 
 public class EntryManager {
 
+    private static EntryManager instance = null;
     private ArrayList<Entry> entryList;
 
-    public EntryManager() {
+    protected EntryManager() {
         entryList = new ArrayList<Entry>();
+    }
+
+    public static EntryManager getInstance() {
+        if (instance == null)
+            instance = new EntryManager();
+        return instance;
     }
 
     public void Add(Entry entry) {

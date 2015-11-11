@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 public class EntryDetails extends Activity {
 
+    private int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +25,7 @@ public class EntryDetails extends Activity {
         if (intent != null) {
             TextView name = (TextView) findViewById(R.id.EntryValue);
             name.setText(intent.getCharSequenceExtra("EntryValue"));
+            position = intent.getIntExtra("EntryPosition", 0);
         }
     }
 
