@@ -18,6 +18,7 @@ public class EntityAdd extends Activity {
     private EditText valueText;
     private EntryManager Entries;
     private LinearLayout layout;
+    private Boolean isIncome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class EntityAdd extends Activity {
     }
 
     private void initialize() {
+        isIncome = false;
         Entries = EntryManager.getInstance();
     }
 
@@ -53,7 +55,7 @@ public class EntityAdd extends Activity {
             @Override
             public void onClick(View v) {
                 double value = Double.parseDouble(valueText.getText().toString());
-                Entries.Add(new Entry(value, true));
+                Entries.Add(new Entry(value, isIncome));
                 valueText.setText("");
             }
         });
@@ -76,6 +78,7 @@ public class EntityAdd extends Activity {
             @Override
             public void onClick(View v) {
                 layout.setBackgroundColor(getColor(R.color.light_red));
+                isIncome = false;
             }
         });
 
@@ -83,6 +86,7 @@ public class EntityAdd extends Activity {
             @Override
             public void onClick(View v) {
                 layout.setBackgroundColor(getColor(R.color.light_blue));
+                isIncome = true;
             }
         });
     }

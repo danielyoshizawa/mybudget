@@ -42,8 +42,16 @@ public class EntryAdapter extends BaseAdapter {
             row = inflater.inflate(R.layout.entry_layout, parent, false);
         }
 
+        Entry entry = Entries.GetEntryAt(position);
+
+        if (entry.IsIncome()) {
+            row.setBackgroundColor(context.getColor(R.color.light_blue));
+        } else {
+            row.setBackgroundColor(context.getColor(R.color.light_red));
+        }
+
         TextView value = (TextView) row.findViewById(R.id.EntryValue);
-        value.setText(Entries.GetEntryAt(position).GetValue());
+        value.setText(entry.GetValue());
 
         return row;
     }
