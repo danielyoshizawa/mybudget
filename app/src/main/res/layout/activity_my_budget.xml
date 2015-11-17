@@ -21,6 +21,39 @@
             android:background="@color/blue">
         </ListView>
 
+        <GridLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:rowCount="3"
+            android:columnCount="2"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Income"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Spend"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"/>
+        </GridLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="0dp"
