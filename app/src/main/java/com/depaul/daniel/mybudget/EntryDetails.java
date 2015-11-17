@@ -14,6 +14,9 @@ public class EntryDetails extends Activity {
     private int position;
     private EntryManager entryManager;
     private Button removeButton;
+    private TextView valueLabel;
+    private TextView latitudeLabel;
+    private TextView longitudeLabel;
 
 
     @Override
@@ -24,6 +27,10 @@ public class EntryDetails extends Activity {
         // TODO : Refactor
         entryManager = EntryManager.getInstance();
         removeButton = (Button) findViewById(R.id.button_remove_detail);
+
+        valueLabel = (TextView) findViewById(R.id.EntryValue); // TODO rename R.id
+        latitudeLabel = (TextView) findViewById(R.id.details_latitude_label);
+        longitudeLabel = (TextView) findViewById(R.id.details_longitude_label);
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,8 +46,9 @@ public class EntryDetails extends Activity {
         super.onStart();
         Intent intent = getIntent();
         if (intent != null) {
-            TextView name = (TextView) findViewById(R.id.EntryValue);
-            name.setText(intent.getCharSequenceExtra("EntryValue"));
+            valueLabel.setText(intent.getCharSequenceExtra("EntryValue"));
+            latitudeLabel.setText(intent.getCharSequenceExtra("entry_latitute_value"));
+            longitudeLabel.setText(intent.getCharSequenceExtra("entry_longitude_value"));
             position = intent.getIntExtra("EntryPosition", 0);
         }
     }

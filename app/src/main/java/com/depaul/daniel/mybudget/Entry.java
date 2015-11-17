@@ -42,11 +42,11 @@ public class Entry {
         this.longitude = longitude;
     }
 
-    public double GetLatitude() {
-        return latitude;
+    public String GetLatitude() { // TODO Not sure if it is ok to convert to String here on the entity
+        return Double.toString(latitude);
     }
 
-    public double GetLongitude() {
-        return longitude;
+    public String GetLongitude() {
+        return Double.toString(longitude);
     }
 }

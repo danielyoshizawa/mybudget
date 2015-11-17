@@ -22,8 +22,10 @@ public class ListViewOnClickListener implements AdapterView.OnItemClickListener 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(context, EntryDetails.class);
-        String valueStr = Entries.GetEntryAt(position).GetValue();
-        intent.putExtra("EntryValue", valueStr);
+        Entry entry = Entries.GetEntryAt(position);
+        intent.putExtra("EntryValue", entry.GetValue());
+        intent.putExtra("entry_latitute_value", entry.GetLatitude());
+        intent.putExtra("entry_longitude_value", entry.GetLongitude());
         intent.putExtra("EntryPosition", position);
         activity.startActivity(intent);
     }
