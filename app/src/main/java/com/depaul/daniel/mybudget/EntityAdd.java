@@ -2,6 +2,7 @@ package com.depaul.daniel.mybudget;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
@@ -86,7 +87,7 @@ public class EntityAdd extends Activity {
         spendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(getColor(R.color.light_red));
+                layout.setBackgroundColor(ContextCompat.getColor(v.getContext(), R.color.light_red));
                 isIncome = false;
             }
         });
@@ -94,7 +95,7 @@ public class EntityAdd extends Activity {
         incomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                layout.setBackgroundColor(getColor(R.color.light_blue));
+                layout.setBackgroundColor(ContextCompat.getColor(v.getContext(), R.color.light_blue));
                 isIncome = true;
             }
         });
