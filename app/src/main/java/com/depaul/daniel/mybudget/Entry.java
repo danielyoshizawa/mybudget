@@ -49,4 +49,12 @@ public class Entry {
     public String GetLongitude() {
         return Double.toString(longitude);
     }
+
+    public double GetLatitudeDouble() {
+        return latitude;
+    }
+
+    public double GetLongitudeDouble() {
+        return longitude;
+    }
 }

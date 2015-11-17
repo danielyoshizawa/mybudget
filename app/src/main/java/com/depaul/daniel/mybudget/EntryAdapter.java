@@ -2,6 +2,7 @@ package com.depaul.daniel.mybudget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +46,9 @@ public class EntryAdapter extends BaseAdapter {
         Entry entry = Entries.GetEntryAt(position);
 
         if (entry.IsIncome()) {
-            row.setBackgroundColor(context.getColor(R.color.light_blue));
+            row.setBackgroundColor(ContextCompat.getColor(context, R.color.light_blue));
         } else {
-            row.setBackgroundColor(context.getColor(R.color.light_red));
+            row.setBackgroundColor(ContextCompat.getColor(context, R.color.light_red));
         }
 
         TextView value = (TextView) row.findViewById(R.id.EntryValue);
