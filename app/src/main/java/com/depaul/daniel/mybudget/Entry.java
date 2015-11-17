@@ -8,10 +8,14 @@ public class Entry {
 
     private double value;
     private boolean isIncome;
+    private double latitude;
+    private double longitude;
 
-    public Entry(double value, boolean isIncome) {
+    public Entry(double value, boolean isIncome, double latitude, double longitude) {
         this.value = value;
         this.isIncome = isIncome;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public void SetValue(double value) {
@@ -28,5 +32,21 @@ public class Entry {
 
     public boolean IsIncome() {
         return isIncome;
+    }
+
+    public void SetLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void SetLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double GetLatitude() {
+        return latitude;
+    }
+
+    public double GetLongitude() {
+        return longitude;
     }
 }

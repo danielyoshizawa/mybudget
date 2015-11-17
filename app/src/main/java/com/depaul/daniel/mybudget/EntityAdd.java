@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+// TODO : Extract Listeners
 public class EntityAdd extends Activity {
 
     private Button addButton;
@@ -19,6 +20,9 @@ public class EntityAdd extends Activity {
     private EntryManager Entries;
     private LinearLayout layout;
     private Boolean isIncome;
+
+    private EditText latitudeText;
+    private EditText longitudeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,9 @@ public class EntityAdd extends Activity {
         spendButton = (Button) findViewById(R.id.entity_add_spend_button);
         incomeButton = (Button) findViewById(R.id.entity_add_income_button);
         layout = (LinearLayout) findViewById(R.id.entity_add_layout);
+
+        latitudeText = (EditText) findViewById(R.id.entity_add_latitude);
+        longitudeText = (EditText) findViewById(R.id.entity_add_longitude);
     }
 
     private void configure() {
@@ -55,15 +62,17 @@ public class EntityAdd extends Activity {
             @Override
             public void onClick(View v) {
                 double value = Double.parseDouble(valueText.getText().toString());
-                Entries.Add(new Entry(value, isIncome));
-                valueText.setText("");
+                double latitude = Double.parseDouble(latitudeText.getText().toString());
+                double longitude = Double.parseDouble(longitudeText.getText().toString());
+                Entries.Add(new Entry(value, isIncome, latitude, longitude));
+                cleanFields();
             }
         });
 
         cleanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                valueText.setText("");
+                cleanFields();
             }
         });
 
@@ -89,5 +98,11 @@ public class EntityAdd extends Activity {
                 isIncome = true;
             }
         });
+    }
+
+    private void cleanFields() {
+        valueText.setText("");
+        latitudeText.setText("");
+        longitudeText.setText("");
     }
 }
