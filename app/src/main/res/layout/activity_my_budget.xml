@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="Total"/>
             <TextView
+                android:id="@+id/total_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -41,6 +42,7 @@
                 android:layout_height="wrap_content"
                 android:text="Income"/>
             <TextView
+                android:id="@+id/income_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"/>
@@ -49,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text="Spend"/>
             <TextView
+                android:id="@+id/spend_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"/>

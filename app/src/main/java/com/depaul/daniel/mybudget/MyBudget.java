@@ -7,12 +7,19 @@ import android.view.MenuItem;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+
+// TODO : Create a GUI Manager
 
 public class MyBudget extends Activity {
 
     private ListView listView;
     private Button addButton;
     private EntryAdapter entryAdapter;
+    private TextView totalValueLabel;
+    private TextView incomeValueLabel;
+    private TextView spendValueLabel;
+    private EntryManager entryManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +35,23 @@ public class MyBudget extends Activity {
     protected void onResume() {
         super.onResume();
         entryAdapter.notifyDataSetChanged();
+
+        totalValueLabel.setText(entryManager.GetTotal());
+        incomeValueLabel.setText(entryManager.GetIncome());
+        spendValueLabel.setText(entryManager.GetSpend());
     }
 
     private void initialize() {
         entryAdapter = new EntryAdapter(this);
+        entryManager = EntryManager.getInstance();
     }
 
     private void inflate() {
         addButton = (Button) findViewById(R.id.button_add_activity);
         listView = (ListView) findViewById(R.id.entry_list);
+        totalValueLabel = (TextView) findViewById(R.id.total_label);
+        incomeValueLabel = (TextView) findViewById(R.id.income_label);
+        spendValueLabel = (TextView) findViewById(R.id.spend_label);
     }
 
     private void configure() {
