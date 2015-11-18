@@ -26,6 +26,7 @@ public class ListViewOnClickListener implements AdapterView.OnItemClickListener 
         intent.putExtra("EntryValue", entry.GetValue());
         intent.putExtra("entry_latitute_value", entry.GetLatitude());
         intent.putExtra("entry_longitude_value", entry.GetLongitude());
+        intent.putExtra("entry_category_value", entry.GetCategory().toString());
         intent.putExtra("EntryPosition", position);
         activity.startActivity(intent);
     }

@@ -10,12 +10,14 @@ public class Entry {
     private boolean isIncome;
     private double latitude;
     private double longitude;
+    private Category category;
 
-    public Entry(double value, boolean isIncome, double latitude, double longitude) {
+    public Entry(double value, boolean isIncome, double latitude, double longitude, Category category) {
         this.value = value;
         this.isIncome = isIncome;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.category = category;
     }
 
     public void SetValue(double value) {
@@ -42,6 +44,10 @@ public class Entry {
         this.longitude = longitude;
     }
 
+    public void SetCategory(Category category) {
+        this.category = category;
+    }
+
     public String GetLatitude() { // TODO Not sure if it is ok to convert to String here on the entity
         return Double.toString(latitude);
     }
@@ -56,5 +62,9 @@ public class Entry {
 
     public double GetLongitudeDouble() {
         return longitude;
+    }
+
+    public Category GetCategory() {
+        return category;
     }
 }

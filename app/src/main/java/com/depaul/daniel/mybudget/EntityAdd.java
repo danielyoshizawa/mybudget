@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 
 // TODO : Extract Listeners
+// TODO : Garanty consistency
 public class EntityAdd extends Activity {
 
     private Button addButton;
@@ -31,6 +33,8 @@ public class EntityAdd extends Activity {
     private Spinner categorySpinner;
 
     private ArrayList<Category> categoryList;
+
+    private Category category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +80,7 @@ public class EntityAdd extends Activity {
                 double value = Double.parseDouble(valueText.getText().toString());
                 double latitude = Double.parseDouble(latitudeText.getText().toString());
                 double longitude = Double.parseDouble(longitudeText.getText().toString());
-                Entries.Add(new Entry(value, isIncome, latitude, longitude));
+                Entries.Add(new Entry(value, isIncome, latitude, longitude, category));
                 cleanFields();
             }
         });
@@ -118,7 +122,7 @@ public class EntityAdd extends Activity {
         longitudeText.setText("");
     }
 
-    private void configureCategorySpinner() {
+    private void configureCategorySpinner() { // TODO move it to a manager or else
         categoryList.add(new Category("Groceries"));
         categoryList.add(new Category("Bills"));
         categoryList.add(new Category("Gas"));
@@ -127,5 +131,17 @@ public class EntityAdd extends Activity {
         ArrayAdapter<Category> dataAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, categoryList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(dataAdapter);
+
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category = categoryList.get(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                category = categoryList.get(0);
+            }
+        });
     }
 }
