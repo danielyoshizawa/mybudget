@@ -48,7 +48,7 @@ public class EntryDetails extends Activity {
         super.onStart();
         Intent intent = getIntent();
         if (intent != null) {
-            valueLabel.setText(intent.getCharSequenceExtra("EntryValue"));
+            valueLabel.setText(intent.getCharSequenceExtra("EntryValue")); // TODO rename
             latitudeLabel.setText(intent.getCharSequenceExtra("entry_latitute_value"));
             longitudeLabel.setText(intent.getCharSequenceExtra("entry_longitude_value"));
             categoryLabel.setText(intent.getCharSequenceExtra("entry_category_value"));
