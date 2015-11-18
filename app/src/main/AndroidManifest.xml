@@ -51,6 +51,10 @@
             android:name=".CategoryAdd"
             android:label="@string/title_activity_category_add" >
         </activity>
+        <activity
+            android:name=".EntryEdit"
+            android:label="@string/title_activity_entry_edit" >
+        </activity>
     </application>
 
 </manifest>

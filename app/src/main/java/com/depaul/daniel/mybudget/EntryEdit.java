@@ -1,11 +1,14 @@
 package com.depaul.daniel.mybudget;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,24 +17,24 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
+public class EntryEdit extends AppCompatActivity {
 
-// TODO : Extract Listeners
-// TODO : Garanty consistency
-public class EntityAdd extends Activity {
-
-    private Button addButton;
+    private Button editButton;
     private Button cleanButton;
     private Button newCatButton;
     private Button cancelButton;
     private Button spendButton;
     private Button incomeButton;
-    private EditText valueText;
     private EntryManager Entries;
+    private Entry thisEntry;
     private CategoryManager Categories;
     private LinearLayout layout;
     private Boolean isIncome;
 
+    private int position;
+    private int spinnerSelection;
+
+    private EditText valueText;
     private EditText latitudeText;
     private EditText longitudeText;
     private Spinner categorySpinner;
@@ -41,13 +44,49 @@ public class EntityAdd extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry_add);
+        setContentView(R.layout.activity_entry_edit);
 
         initialize();
         inflate();
-        configure();
+        // TODO: The pattern is breaking the show on valueText, uncomment when its ok.
+        //configure();
         configureListeners();
         configureCategorySpinner();
+    }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        Intent intent = getIntent();
+        if (intent != null) {
+            position = intent.getIntExtra("EntryPosition", 0);
+            thisEntry = Entries.GetEntryAt(position);
+
+            valueText.setText(thisEntry.GetValue());
+            Log.d("WHY THE HELL", "OMG");
+            latitudeText.setText(thisEntry.GetLatitude());
+            longitudeText.setText(thisEntry.GetLongitude());
+
+            // Setting the actual category on the Spinner
+            int pos = 0;
+            for(Category cat: Categories.getList()) {
+                if(cat.equals(thisEntry.GetCategory())) {
+                    spinnerSelection = pos;
+                }
+                pos++;
+            }
+
+            if(thisEntry.IsIncome()) {
+                isIncome = true;
+                layout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_blue));
+            } else {
+                isIncome = false;
+                layout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red));
+            }
+
+
+        }
     }
 
     @Override
@@ -57,14 +96,12 @@ public class EntityAdd extends Activity {
     }
 
     private void initialize() {
-        isIncome = false;
         Entries = EntryManager.getInstance();
         Categories = CategoryManager.getInstance();
     }
 
     private void inflate() {
-        valueText = (EditText) findViewById(R.id.entity_add_value);
-        addButton = (Button) findViewById(R.id.entity_add_button);
+        editButton = (Button) findViewById(R.id.entity_edit_button);
         newCatButton = (Button) findViewById(R.id.entity_newcat_button);
         cleanButton = (Button) findViewById(R.id.entity_clean_button);
         cancelButton = (Button) findViewById(R.id.entity_cancel_button);
@@ -72,11 +109,11 @@ public class EntityAdd extends Activity {
         incomeButton = (Button) findViewById(R.id.entity_add_income_button);
         layout = (LinearLayout) findViewById(R.id.entity_add_layout);
 
+        valueText = (EditText) findViewById(R.id.entity_add_value);
         latitudeText = (EditText) findViewById(R.id.entity_add_latitude);
         longitudeText = (EditText) findViewById(R.id.entity_add_longitude);
 
         categorySpinner = (Spinner) findViewById(R.id.entity_add_category_spinner);
-        layout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red)); // Defaulting as Spend
     }
 
     private void configure() {
@@ -84,14 +121,15 @@ public class EntityAdd extends Activity {
     }
 
     private void configureListeners() {
-        addButton.setOnClickListener(new View.OnClickListener() {
+        editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double value = Double.parseDouble(valueText.getText().toString());
-                double latitude = Double.parseDouble(latitudeText.getText().toString());
-                double longitude = Double.parseDouble(longitudeText.getText().toString());
-                Entries.Add(new Entry(value, isIncome, latitude, longitude, category));
-                finish(); // When added, its finished, so, I switched from clean to finish add activity
+                thisEntry.SetValue(Double.parseDouble(valueText.getText().toString()));
+                thisEntry.SetCategory(category);
+                thisEntry.SetIsIncome(isIncome);
+                thisEntry.SetLatitude(Double.parseDouble(latitudeText.getText().toString()));
+                thisEntry.SetLongitude(Double.parseDouble(longitudeText.getText().toString()));
+                finish();
             }
         });
 
@@ -145,6 +183,7 @@ public class EntityAdd extends Activity {
         ArrayAdapter<Category> dataAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, Categories.getList());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(dataAdapter);
+        categorySpinner.setSelection(spinnerSelection, true);
 
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -158,4 +197,6 @@ public class EntityAdd extends Activity {
             }
         });
     }
+
+
 }

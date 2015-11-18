@@ -1,6 +1,7 @@
 package com.depaul.daniel.mybudget;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,15 +22,15 @@ import java.util.ArrayList;
 public class EntryDetails extends Activity {
 
     private int position;
-    private EntryManager entryManager;
-    private Button removeButton, changeCurrencyButton;
+    private EntryManager Entries;
+    private Entry thisEntry;
+    private Button removeButton, editButton, changeCurrencyButton;
     private Spinner currencySpinner;
     private TextView valueLabel;
     private TextView latitudeLabel;
     private TextView longitudeLabel;
     private TextView categoryLabel;
     private TextView currencyLabel;
-    private CharSequence value;
     private ArrayList<Currency> currencyList;
 
     private static String currencyWanted = "", currencyValue = "";
@@ -40,11 +41,49 @@ public class EntryDetails extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry_details);
 
-        currencyList = new ArrayList<Currency>();
+        initialize();
+        inflate();
+        configureListeners();
+        configureCurrencySpinner();
+    }
 
-        // TODO : Refactor
-        entryManager = EntryManager.getInstance();
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        Intent intent = getIntent();
+        if (intent != null) {
+            // EDIT 1: Could not understand why pass all this values instead passing just the entry position
+            // EDIT 1: and retrieving all of them directly from the EntryManager instance
+
+            // EDIT 2: I just removed all intent content and passed just the position retrieving everything from that
+            // EDIT 2: Had to do it to keep edit working as I need to update the values when resume
+            position = intent.getIntExtra("EntryPosition", 0);
+            thisEntry = Entries.GetEntryAt(position);
+
+            valueLabel.setText(thisEntry.GetValue());
+            latitudeLabel.setText(thisEntry.GetLatitude());
+            longitudeLabel.setText(thisEntry.GetLongitude());
+            categoryLabel.setText(thisEntry.GetCategory().GetName());
+
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        super.onStart();
+    }
+
+    private void initialize() {
+        currencyList = new ArrayList<Currency>();
+        Entries = EntryManager.getInstance();
+    }
+
+    private void inflate() {
         removeButton = (Button) findViewById(R.id.button_remove_detail);
+        editButton = (Button) findViewById(R.id.button_edit_detail);
         changeCurrencyButton = (Button) findViewById(R.id.button_change_currency);
 
         valueLabel = (TextView) findViewById(R.id.EntryValue); // TODO rename R.id
@@ -54,12 +93,23 @@ public class EntryDetails extends Activity {
         currencyLabel = (TextView) findViewById(R.id.details_currency_label);
         currencySpinner = (Spinner) findViewById(R.id.details_currency_spinner);
 
-        configureCurrencySpinner();
+    }
+
+    private void configureListeners() {
         removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                entryManager.RemoveAt(position);
+                Entries.RemoveAt(position);
                 finish();
+            }
+        });
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, EntryEdit.class);
+                intent.putExtra("EntryPosition", position);
+                context.startActivity(intent);
             }
         });
         changeCurrencyButton.setOnClickListener(new View.OnClickListener() {
@@ -74,23 +124,6 @@ public class EntryDetails extends Activity {
                 }
             }
         });
-
-    }
-
-
-    @Override
-    protected void onStart() {
-
-        super.onStart();
-        Intent intent = getIntent();
-        if (intent != null) {
-            value = intent.getCharSequenceExtra("EntryValue"); // TODO rename
-            valueLabel.setText(value);
-            latitudeLabel.setText(intent.getCharSequenceExtra("entry_latitute_value"));
-            longitudeLabel.setText(intent.getCharSequenceExtra("entry_longitude_value"));
-            categoryLabel.setText(intent.getCharSequenceExtra("entry_category_value"));
-            position = intent.getIntExtra("EntryPosition", 0);
-        }
     }
 
     private class GETCurrency extends AsyncTask<String, String, String> {
@@ -115,8 +148,7 @@ public class EntryDetails extends Activity {
 
         @Override
         protected void onPostExecute(String currencyValue) {
-            double newValue = Double.parseDouble(currencyValue) * Double.parseDouble(value.toString());
-            Log.d(currencyValue + "  " + value.toString(), "TEST");
+            double newValue = Double.parseDouble(currencyValue) * Double.parseDouble(thisEntry.GetValue());
             currencyLabel.setText(Double.toString(newValue));
         }
     }
