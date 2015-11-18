@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
 
 // TODO : Extract Listeners
 public class EntityAdd extends Activity {
@@ -24,6 +28,9 @@ public class EntityAdd extends Activity {
 
     private EditText latitudeText;
     private EditText longitudeText;
+    private Spinner categorySpinner;
+
+    private ArrayList<Category> categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +41,13 @@ public class EntityAdd extends Activity {
         inflate();
         configure();
         configureListeners();
+        configureCategorySpinner();
     }
 
     private void initialize() {
         isIncome = false;
         Entries = EntryManager.getInstance();
+        categoryList = new ArrayList<Category>();
     }
 
     private void inflate() {
@@ -52,6 +61,8 @@ public class EntityAdd extends Activity {
 
         latitudeText = (EditText) findViewById(R.id.entity_add_latitude);
         longitudeText = (EditText) findViewById(R.id.entity_add_longitude);
+
+        categorySpinner = (Spinner) findViewById(R.id.entity_add_category_spinner);
     }
 
     private void configure() {
@@ -105,5 +116,16 @@ public class EntityAdd extends Activity {
         valueText.setText("");
         latitudeText.setText("");
         longitudeText.setText("");
+    }
+
+    private void configureCategorySpinner() {
+        categoryList.add(new Category("Groceries"));
+        categoryList.add(new Category("Bills"));
+        categoryList.add(new Category("Gas"));
+        categoryList.add(new Category("Savings"));
+
+        ArrayAdapter<Category> dataAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, categoryList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(dataAdapter);
     }
 }

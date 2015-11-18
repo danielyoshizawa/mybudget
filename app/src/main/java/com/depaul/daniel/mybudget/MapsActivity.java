@@ -10,7 +10,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback { // TODO remove implements
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private EntryManager manager;
@@ -63,7 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * <p/>
      * This should only be called once and when we are sure that {@link #mMap} is not null.
      */
-    private void setUpMap() {
+    private void setUpMap() { // TODO refactor
 
         if (manager.Size() == 0) {
             mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
