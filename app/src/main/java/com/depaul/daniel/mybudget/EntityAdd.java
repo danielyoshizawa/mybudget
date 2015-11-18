@@ -1,6 +1,8 @@
 package com.depaul.daniel.mybudget;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
@@ -20,19 +22,19 @@ public class EntityAdd extends Activity {
 
     private Button addButton;
     private Button cleanButton;
+    private Button newCatButton;
     private Button cancelButton;
     private Button spendButton;
     private Button incomeButton;
     private EditText valueText;
     private EntryManager Entries;
+    private CategoryManager Categories;
     private LinearLayout layout;
     private Boolean isIncome;
 
     private EditText latitudeText;
     private EditText longitudeText;
     private Spinner categorySpinner;
-
-    private ArrayList<Category> categoryList;
 
     private Category category;
 
@@ -48,15 +50,22 @@ public class EntityAdd extends Activity {
         configureCategorySpinner();
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        configureCategorySpinner();
+    }
+
     private void initialize() {
         isIncome = false;
         Entries = EntryManager.getInstance();
-        categoryList = new ArrayList<Category>();
+        Categories = CategoryManager.getInstance();
     }
 
     private void inflate() {
         valueText = (EditText) findViewById(R.id.entity_add_value);
         addButton = (Button) findViewById(R.id.entity_add_button);
+        newCatButton = (Button) findViewById(R.id.entity_newcat_button);
         cleanButton = (Button) findViewById(R.id.entity_clean_button);
         cancelButton = (Button) findViewById(R.id.entity_cancel_button);
         spendButton = (Button) findViewById(R.id.entity_add_spend_button);
@@ -81,7 +90,7 @@ public class EntityAdd extends Activity {
                 double latitude = Double.parseDouble(latitudeText.getText().toString());
                 double longitude = Double.parseDouble(longitudeText.getText().toString());
                 Entries.Add(new Entry(value, isIncome, latitude, longitude, category));
-                cleanFields();
+                finish(); // When added, its finished, so, I switched from clean to finish add activity
             }
         });
 
@@ -96,6 +105,15 @@ public class EntityAdd extends Activity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        newCatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, CategoryAdd.class);
+                context.startActivity(intent);
             }
         });
 
@@ -122,25 +140,20 @@ public class EntityAdd extends Activity {
         longitudeText.setText("");
     }
 
-    private void configureCategorySpinner() { // TODO move it to a manager or else
-        categoryList.add(new Category("Groceries"));
-        categoryList.add(new Category("Bills"));
-        categoryList.add(new Category("Gas"));
-        categoryList.add(new Category("Savings"));
-
-        ArrayAdapter<Category> dataAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, categoryList);
+    private void configureCategorySpinner() {
+        ArrayAdapter<Category> dataAdapter = new ArrayAdapter<Category>(this, android.R.layout.simple_spinner_item, Categories.getList());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(dataAdapter);
 
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                category = categoryList.get(position);
+                category = Categories.GetCategoryAt(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                category = categoryList.get(0);
+                category = Categories.GetCategoryAt(0);
             }
         });
     }

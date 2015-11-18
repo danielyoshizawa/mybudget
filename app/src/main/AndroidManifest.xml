@@ -47,6 +47,10 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" >
         </activity>
+        <activity
+            android:name=".CategoryAdd"
+            android:label="@string/title_activity_category_add" >
+        </activity>
     </application>
 
 </manifest>

@@ -20,6 +20,7 @@ public class MyBudget extends Activity {
     private TextView incomeValueLabel;
     private TextView spendValueLabel;
     private EntryManager entryManager;
+    private CategoryManager categoryManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class MyBudget extends Activity {
         initialize();
         inflate();
         configure();
+        addCategories();
     }
 
     @Override
@@ -44,6 +46,7 @@ public class MyBudget extends Activity {
     private void initialize() {
         entryAdapter = new EntryAdapter(this);
         entryManager = EntryManager.getInstance();
+        categoryManager = CategoryManager.getInstance();
     }
 
     private void inflate() {
@@ -60,6 +63,13 @@ public class MyBudget extends Activity {
         listView.setOnItemClickListener(new ListViewOnClickListener(this, MyBudget.this));
         addButton.setOnClickListener(new AddOnClickListener(this, MyBudget.this));
         mapButton.setOnClickListener(new MapOnClickListener(this, MyBudget.this));
+    }
+
+    private void addCategories() {
+        categoryManager.Add(new Category("Groceries"));
+        categoryManager.Add(new Category("Bills"));
+        categoryManager.Add(new Category("Gas"));
+        categoryManager.Add(new Category("Savings"));
     }
 
     @Override
