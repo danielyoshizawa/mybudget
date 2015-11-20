@@ -6,7 +6,6 @@ package com.depaul.daniel.mybudget;
 
 // Should it be a singleton? I don't like it. I would like to move it to a database. H2 or SQLite?
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class EntryManager {
 
@@ -72,5 +71,20 @@ public class EntryManager {
 
     public String GetSpend() {
         return Double.toString(getSpend());
+    }
+
+    public double GetSpendPerCategory (String categoryName) {
+        double sum = 0.0;
+
+        for (Entry e : entryList) {
+            if (!e.IsIncome()) {
+                Category category = e.GetCategory();
+                if (category.GetName().equals(categoryName)) {
+                    sum += e.GetValueDouble();
+                }
+            }
+        }
+
+        return sum;
     }
 }

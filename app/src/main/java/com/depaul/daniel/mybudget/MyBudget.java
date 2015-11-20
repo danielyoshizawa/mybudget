@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,7 +20,7 @@ public class MyBudget extends Layout {
     private TextView spendValueLabel;
     private EntryManager entryManager;
     private CategoryManager categoryManager;
-    private Button chartButton;
+    private LinearLayout chartButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,7 @@ public class MyBudget extends Layout {
         totalValueLabel = (TextView) findViewById(R.id.total_label);
         incomeValueLabel = (TextView) findViewById(R.id.income_label);
         spendValueLabel = (TextView) findViewById(R.id.spend_label);
-        chartButton = (Button) findViewById(R.id.button_chart);
+        chartButton = (LinearLayout) findViewById(R.id.button_chart);
     }
 
     private void configure() {

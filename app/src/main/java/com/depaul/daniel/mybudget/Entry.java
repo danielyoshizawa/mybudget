@@ -69,4 +69,8 @@ public class Entry {
     public Category GetCategory() {
         return category;
     }
+
+    public double GetValueDouble() {
+        return value;
+    }
 }

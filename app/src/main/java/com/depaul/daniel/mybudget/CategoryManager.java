@@ -38,4 +38,14 @@ public class CategoryManager {
     public void RemoveAt(int position) {
         categoryList.remove(position);
     }
+
+    public ArrayList<String> GetCategoriesName() {
+        ArrayList<String> names = new ArrayList<String>();
+
+        for (Category category : categoryList) {
+            names.add(category.GetName());
+        }
+
+        return names;
+    }
 }
