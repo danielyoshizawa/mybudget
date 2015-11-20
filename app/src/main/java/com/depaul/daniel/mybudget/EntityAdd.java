@@ -1,6 +1,5 @@
 package com.depaul.daniel.mybudget;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,11 +18,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 // TODO : Extract Listeners
-// TODO : Garanty consistency
 public class EntityAdd extends Layout {
 
     private Button addButton;
@@ -36,7 +34,7 @@ public class EntityAdd extends Layout {
     private EditText titleText;
     private EntryManager Entries;
     private CategoryManager Categories;
-    private LinearLayout layout;
+    private RelativeLayout layout;
     private Boolean isIncome;
 
     private Spinner categorySpinner;
@@ -82,7 +80,7 @@ public class EntityAdd extends Layout {
         cancelButton = (Button) findViewById(R.id.entity_cancel_button);
         spendButton = (Button) findViewById(R.id.entity_add_spend_button);
         incomeButton = (Button) findViewById(R.id.entity_add_income_button);
-        layout = (LinearLayout) findViewById(R.id.entity_add_layout);
+        layout = (RelativeLayout) findViewById(R.id.entity_add_layout);
 
         categorySpinner = (Spinner) findViewById(R.id.entity_add_category_spinner);
         layout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red)); // Defaulting as Spend
@@ -91,6 +89,13 @@ public class EntityAdd extends Layout {
     private void configure() {
         valueText.setRawInputType(Configuration.KEYBOARD_12KEY);
         valueText.setText("$0.00");
+        valueText.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                valueText.setSelection(valueText.getText().length());
+            }
+        });
+
         valueText.addTextChangedListener(new TextWatcher() {
             private String current = "";
 

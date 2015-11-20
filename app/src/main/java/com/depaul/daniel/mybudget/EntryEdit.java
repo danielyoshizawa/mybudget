@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 public class EntryEdit extends Layout {
@@ -30,7 +28,7 @@ public class EntryEdit extends Layout {
     private EntryManager Entries;
     private Entry thisEntry;
     private CategoryManager Categories;
-    private LinearLayout layout;
+    private RelativeLayout layout;
     private Boolean isIncome;
 
     private int position;
@@ -106,7 +104,7 @@ public class EntryEdit extends Layout {
         cancelButton = (Button) findViewById(R.id.entity_cancel_button);
         spendButton = (Button) findViewById(R.id.entity_add_spend_button);
         incomeButton = (Button) findViewById(R.id.entity_add_income_button);
-        layout = (LinearLayout) findViewById(R.id.entity_add_layout);
+        layout = (RelativeLayout) findViewById(R.id.entity_add_layout);
 
         valueText = (EditText) findViewById(R.id.entity_add_value);
         titleText = (EditText) findViewById(R.id.entity_title);
