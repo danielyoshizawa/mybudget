@@ -5,12 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,6 +30,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import org.json.JSONException;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class EntryDetails extends Layout {
@@ -37,11 +43,12 @@ public class EntryDetails extends Layout {
     private Button removeButton, editButton, changeCurrencyButton;
     private Spinner currencySpinner;
     private TextView valueLabel;
-    private TextView latitudeLabel;
-    private TextView longitudeLabel;
     private TextView categoryLabel;
     private TextView currencyLabel;
+    private TextView entryLabel;
     private ArrayList<Currency> currencyList;
+    private LinearLayout currencyHolder;
+    private String currencyChosen;
 
     private GoogleMap googleMap;
 
@@ -73,10 +80,17 @@ public class EntryDetails extends Layout {
             position = intent.getIntExtra("EntryPosition", 0);
             thisEntry = Entries.GetEntryAt(position);
 
-            valueLabel.setText(thisEntry.GetValue());
-            latitudeLabel.setText(thisEntry.GetLatitude());
-            longitudeLabel.setText(thisEntry.GetLongitude());
+            valueLabel.setText(DataValidator.FormatCurrency(this, Double.parseDouble(thisEntry.GetValue())));
+            entryLabel.setText(thisEntry.GetTitle());
             categoryLabel.setText(thisEntry.GetCategory().GetName());
+
+            if (thisEntry.IsIncome()) {
+                categoryLabel.setBackgroundColor(ContextCompat.getColor(this, R.color.blue));
+                valueLabel.setTextColor(ContextCompat.getColor(this, R.color.blue));
+            } else {
+                categoryLabel.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+                valueLabel.setTextColor(ContextCompat.getColor(this, R.color.red));
+            }
 
             try {
                 if (googleMap == null) {
@@ -119,13 +133,14 @@ public class EntryDetails extends Layout {
         editButton = (Button) findViewById(R.id.button_edit_detail);
         changeCurrencyButton = (Button) findViewById(R.id.button_change_currency);
 
+        entryLabel = (TextView) findViewById(R.id.details_entry_title);
         valueLabel = (TextView) findViewById(R.id.EntryValue); // TODO rename R.id
-        latitudeLabel = (TextView) findViewById(R.id.details_latitude_label);
-        longitudeLabel = (TextView) findViewById(R.id.details_longitude_label);
         categoryLabel = (TextView) findViewById(R.id.details_category_label);
         currencyLabel = (TextView) findViewById(R.id.details_currency_label);
         currencySpinner = (Spinner) findViewById(R.id.details_currency_spinner);
 
+        currencyHolder = (LinearLayout) findViewById(R.id.details_currency_holder);
+        currencyHolder.setVisibility(View.GONE);
     }
 
     private void configureListeners() {
@@ -153,6 +168,7 @@ public class EntryDetails extends Layout {
                 for(Currency curr: currencyList) {
                     if(curr.getFullName().equals(fullName)) {
                         new GETCurrency().execute(curr.getCodeName());
+                        currencyChosen = curr.getCodeName();
                     }
                 }
             }
@@ -182,7 +198,8 @@ public class EntryDetails extends Layout {
         @Override
         protected void onPostExecute(String currencyValue) {
             double newValue = Double.parseDouble(currencyValue) * Double.parseDouble(thisEntry.GetValue());
-            currencyLabel.setText(Double.toString(newValue));
+            currencyLabel.setText(currencyChosen + " " + new DecimalFormat("#.00").format(newValue));
+            currencyHolder.setVisibility(View.VISIBLE);
         }
     }
 

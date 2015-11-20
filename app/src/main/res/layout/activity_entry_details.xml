@@ -17,79 +17,116 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_marginLeft="1dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Overview"
+            android:id="@+id/details_entry_title"
+            android:textColor="#2a2a2a"
+            android:textSize="20dp"
+            android:layout_marginBottom="10dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:padding="10dp" android:background="#ffffff">
+
+            <TextView android:id="@+id/EntryValue"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$0.00"
+                android:textSize="22dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="6dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/details_category_label"
+                android:layout_alignParentRight="true"
+                android:text="Category"
+                android:gravity="center"
+                android:padding="8dp"
+                android:textColor="#ffffff" />
+
+        </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_weight="0"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/EntryValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/details_latitude_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/details_longitude_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/details_category_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="#ffffff"
+            android:id="@+id/details_currency_holder">
 
             <TextView
                 android:id="@+id/details_currency_label"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="22dp"
+                android:text="0.00"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:gravity="center|bottom">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
 
 
             <Spinner
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/details_currency_spinner"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:layout_marginRight="1dp" />
 
             <Button
                 android:id="@+id/button_change_currency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Change Currency"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="#545454"
+                android:textColor="#ffffff"
+                android:padding="10dp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center|bottom">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/button_edit_detail"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Edit"/>
+                android:text="Edit"
+                android:layout_weight="1"
+                android:background="#005ba1"
+                android:textColor="#ffffff"
+                android:layout_marginRight="1dp" />
 
             <Button
                 android:id="@+id/button_remove_detail"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Remove" />
+                android:text="Remove"
+                android:layout_weight="1"
+                android:background="#a10000"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="1dp" />
 
         </LinearLayout>
 
