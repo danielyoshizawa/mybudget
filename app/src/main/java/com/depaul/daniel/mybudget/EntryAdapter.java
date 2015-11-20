@@ -52,7 +52,7 @@ public class EntryAdapter extends BaseAdapter {
         }
 
         TextView value = (TextView) row.findViewById(R.id.EntryValue);
-        value.setText(entry.GetValue());
+        value.setText(DataValidator.FormatCurrency(context, Double.parseDouble(entry.GetValue())));
 
         return row;
     }

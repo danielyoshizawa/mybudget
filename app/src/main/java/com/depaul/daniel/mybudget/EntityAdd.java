@@ -1,11 +1,19 @@
 package com.depaul.daniel.mybudget;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,11 +38,12 @@ public class EntityAdd extends Activity {
     private LinearLayout layout;
     private Boolean isIncome;
 
-    private EditText latitudeText;
-    private EditText longitudeText;
     private Spinner categorySpinner;
 
     private Category category;
+    private DataValidator dataValidator;
+
+    private AppLocationService appLocationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,8 @@ public class EntityAdd extends Activity {
         isIncome = false;
         Entries = EntryManager.getInstance();
         Categories = CategoryManager.getInstance();
+        dataValidator = new DataValidator(this);
+        appLocationService = new AppLocationService(this);
     }
 
     private void inflate() {
@@ -70,26 +81,67 @@ public class EntityAdd extends Activity {
         incomeButton = (Button) findViewById(R.id.entity_add_income_button);
         layout = (LinearLayout) findViewById(R.id.entity_add_layout);
 
-        latitudeText = (EditText) findViewById(R.id.entity_add_latitude);
-        longitudeText = (EditText) findViewById(R.id.entity_add_longitude);
-
         categorySpinner = (Spinner) findViewById(R.id.entity_add_category_spinner);
         layout.setBackgroundColor(ContextCompat.getColor(this, R.color.light_red)); // Defaulting as Spend
     }
 
     private void configure() {
-        valueText.setFilters(new InputFilter[] {new CurrencyFormatInputFilter()});
+        valueText.setRawInputType(Configuration.KEYBOARD_12KEY);
+        valueText.setText("$0.00");
+        valueText.addTextChangedListener(new TextWatcher() {
+            private String current = "";
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+                valueText.requestFocus();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().equals(current)) {
+                    valueText.removeTextChangedListener(this);
+
+                    String cleanString = s.toString().replaceAll("[$,.]", "");
+
+                    double parsed = Double.parseDouble(cleanString);
+                    String formatted = DataValidator.FormatCurrency(EntityAdd.this, parsed, true);
+
+                    current = formatted;
+                    valueText.setText(formatted);
+                    valueText.setSelection(formatted.length());
+
+                    valueText.addTextChangedListener(this);
+                }
+            }
+        });
+        valueText.requestFocus();
     }
 
     private void configureListeners() {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double value = Double.parseDouble(valueText.getText().toString());
-                double latitude = Double.parseDouble(latitudeText.getText().toString());
-                double longitude = Double.parseDouble(longitudeText.getText().toString());
-                Entries.Add(new Entry(value, isIncome, latitude, longitude, category));
-                finish(); // When added, its finished, so, I switched from clean to finish add activity
+                Location gpsLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
+
+                String cleanString = valueText.getText().toString().replaceAll("[$,]", "");
+                double value = Double.parseDouble(cleanString);
+
+                if (gpsLocation != null) {
+                    double latitude = gpsLocation.getLatitude();
+                    double longitude = gpsLocation.getLongitude();
+
+                    if(dataValidator.bySize(Double.toString(value), "Valor", 3, 20)) {
+                        Entries.Add(new Entry(value, isIncome, latitude, longitude, category));
+                        finish(); // When added, its finished, so, I switched from clean to finish add activity
+                    }
+                } else {
+                    showSettingsAlert();
+                }
             }
         });
 
@@ -133,10 +185,30 @@ public class EntityAdd extends Activity {
         });
     }
 
+    public void showSettingsAlert() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+                EntityAdd.this);
+        alertDialog.setTitle("SETTINGS");
+        alertDialog.setMessage("Enable Location Provider! Go to settings menu?");
+        alertDialog.setPositiveButton("Settings",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(
+                                Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        EntityAdd.this.startActivity(intent);
+                    }
+                });
+        alertDialog.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialog.show();
+    }
+
     private void cleanFields() {
         valueText.setText("");
-        latitudeText.setText("");
-        longitudeText.setText("");
     }
 
     private void configureCategorySpinner() {

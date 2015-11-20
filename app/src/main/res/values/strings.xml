@@ -8,4 +8,9 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_category_add">CategoryAdd</string>
     <string name="title_activity_entry_edit">EntryEdit</string>
+
+    <!-- main currency details -->
+    <string name="lang">en</string>
+    <string name="loc">US</string>
+    <string name="currency">USD</string>
 </resources>
