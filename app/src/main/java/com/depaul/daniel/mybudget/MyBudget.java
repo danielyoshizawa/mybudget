@@ -1,6 +1,5 @@
 package com.depaul.daniel.mybudget;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +21,7 @@ public class MyBudget extends Layout {
     private TextView spendValueLabel;
     private EntryManager entryManager;
     private CategoryManager categoryManager;
+    private Button chartButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +66,14 @@ public class MyBudget extends Layout {
         totalValueLabel = (TextView) findViewById(R.id.total_label);
         incomeValueLabel = (TextView) findViewById(R.id.income_label);
         spendValueLabel = (TextView) findViewById(R.id.spend_label);
+        chartButton = (Button) findViewById(R.id.button_chart);
     }
 
     private void configure() {
         listView.setAdapter(entryAdapter);
         listView.setOnItemClickListener(new ListViewOnClickListener(this, MyBudget.this));
-        addButton.setOnClickListener(new AddOnClickListener(this, MyBudget.this));
+        addButton.setOnClickListener(new ChangeActivityOnClickListener(this, MyBudget.this, EntityAdd.class));
+        chartButton.setOnClickListener(new ChangeActivityOnClickListener(this, MyBudget.this, ChartActivity.class));
     }
 
     private void addCategories() {

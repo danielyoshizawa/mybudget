@@ -5,19 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-public class AddOnClickListener implements View.OnClickListener {
+public class ChangeActivityOnClickListener implements View.OnClickListener {
 
     private Activity activity;
     private Context context;
+    private Class uri;
 
-    public AddOnClickListener(Activity activity, Context context) {
+    public ChangeActivityOnClickListener(Activity activity, Context context, Class uri) {
         this.activity = activity;
         this.context = context;
+        this.uri = uri;
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(context, EntityAdd.class);
+        Intent intent = new Intent(context, uri);
         activity.startActivity(intent);
     }
 }
