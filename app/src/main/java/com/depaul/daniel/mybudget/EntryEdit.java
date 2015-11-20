@@ -2,10 +2,13 @@ package com.depaul.daniel.mybudget;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,8 +36,7 @@ public class EntryEdit extends AppCompatActivity {
     private int spinnerSelection;
 
     private EditText valueText;
-    private EditText latitudeText;
-    private EditText longitudeText;
+    private EditText titleText;
     private Spinner categorySpinner;
 
     private Category category;
@@ -46,8 +48,7 @@ public class EntryEdit extends AppCompatActivity {
 
         initialize();
         inflate();
-        // TODO: The pattern is breaking the show on valueText, uncomment when its ok.
-        //configure();
+        configure();
         configureListeners();
         configureCategorySpinner();
     }
@@ -61,10 +62,8 @@ public class EntryEdit extends AppCompatActivity {
             position = intent.getIntExtra("EntryPosition", 0);
             thisEntry = Entries.GetEntryAt(position);
 
-            valueText.setText(thisEntry.GetValue());
-            Log.d("WHY THE HELL", "OMG");
-            latitudeText.setText(thisEntry.GetLatitude());
-            longitudeText.setText(thisEntry.GetLongitude());
+            titleText.setText(thisEntry.GetTitle());
+            valueText.setText(DataValidator.FormatCurrency(this, Double.parseDouble(thisEntry.GetValue())));
 
             // Setting the actual category on the Spinner
             int pos = 0;
@@ -108,25 +107,56 @@ public class EntryEdit extends AppCompatActivity {
         layout = (LinearLayout) findViewById(R.id.entity_add_layout);
 
         valueText = (EditText) findViewById(R.id.entity_add_value);
-        latitudeText = (EditText) findViewById(R.id.entity_add_latitude);
-        longitudeText = (EditText) findViewById(R.id.entity_add_longitude);
+        titleText = (EditText) findViewById(R.id.entity_title);
 
         categorySpinner = (Spinner) findViewById(R.id.entity_add_category_spinner);
     }
 
     private void configure() {
-        valueText.setFilters(new InputFilter[] {new CurrencyFormatInputFilter()});
-    }
+        valueText.setRawInputType(Configuration.KEYBOARD_12KEY);
+        valueText.addTextChangedListener(new TextWatcher() {
+            private String current = "";
 
+            @Override
+            public void afterTextChanged(Editable arg0) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().equals(current)) {
+                    valueText.removeTextChangedListener(this);
+
+                    String cleanString = s.toString().replaceAll("[$,.]", "");
+
+                    double parsed = Double.parseDouble(cleanString);
+                    String formatted = DataValidator.FormatCurrency(EntryEdit.this, parsed, true);
+
+                    current = formatted;
+                    valueText.setText(formatted);
+                    valueText.setSelection(formatted.length());
+
+                    valueText.addTextChangedListener(this);
+                }
+            }
+        });
+        titleText.requestFocus();
+    }
     private void configureListeners() {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                thisEntry.SetValue(Double.parseDouble(valueText.getText().toString()));
+                String cleanString = valueText.getText().toString().replaceAll("[$,]", "");
+                double value = Double.parseDouble(cleanString);
+
+                thisEntry.SetTitle(titleText.getText().toString());
+                thisEntry.SetValue(value);
                 thisEntry.SetCategory(category);
                 thisEntry.SetIsIncome(isIncome);
-                thisEntry.SetLatitude(Double.parseDouble(latitudeText.getText().toString()));
-                thisEntry.SetLongitude(Double.parseDouble(longitudeText.getText().toString()));
                 finish();
             }
         });
@@ -172,9 +202,9 @@ public class EntryEdit extends AppCompatActivity {
     }
 
     private void cleanFields() {
-        valueText.setText("");
-        latitudeText.setText("");
-        longitudeText.setText("");
+        valueText.setText("$0.00");
+        titleText.setText("");
+        titleText.requestFocus();
     }
 
     private void configureCategorySpinner() {

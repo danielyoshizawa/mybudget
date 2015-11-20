@@ -33,6 +33,7 @@ public class EntityAdd extends Activity {
     private Button spendButton;
     private Button incomeButton;
     private EditText valueText;
+    private EditText titleText;
     private EntryManager Entries;
     private CategoryManager Categories;
     private LinearLayout layout;
@@ -73,6 +74,7 @@ public class EntityAdd extends Activity {
 
     private void inflate() {
         valueText = (EditText) findViewById(R.id.entity_add_value);
+        titleText = (EditText) findViewById(R.id.entity_title);
         addButton = (Button) findViewById(R.id.entity_add_button);
         newCatButton = (Button) findViewById(R.id.entity_newcat_button);
         cleanButton = (Button) findViewById(R.id.entity_clean_button);
@@ -98,7 +100,6 @@ public class EntityAdd extends Activity {
             @Override
             public void beforeTextChanged(CharSequence s, int start,
                                           int count, int after) {
-                valueText.requestFocus();
             }
 
             @Override
@@ -119,7 +120,6 @@ public class EntityAdd extends Activity {
                 }
             }
         });
-        valueText.requestFocus();
     }
 
     private void configureListeners() {
@@ -128,6 +128,7 @@ public class EntityAdd extends Activity {
             public void onClick(View v) {
                 Location gpsLocation = appLocationService.getLocation(LocationManager.GPS_PROVIDER);
 
+                String title = titleText.getText().toString();
                 String cleanString = valueText.getText().toString().replaceAll("[$,]", "");
                 double value = Double.parseDouble(cleanString);
 
@@ -135,8 +136,9 @@ public class EntityAdd extends Activity {
                     double latitude = gpsLocation.getLatitude();
                     double longitude = gpsLocation.getLongitude();
 
-                    if(dataValidator.bySize(Double.toString(value), "Valor", 3, 20)) {
-                        Entries.Add(new Entry(value, isIncome, latitude, longitude, category));
+                    if(dataValidator.bySize(Double.toString(value), "Value", 3, 20)
+                            && dataValidator.bySize(title, "Title", 3, 20)) {
+                        Entries.Add(new Entry(title, value, isIncome, latitude, longitude, category));
                         finish(); // When added, its finished, so, I switched from clean to finish add activity
                     }
                 } else {
@@ -208,7 +210,9 @@ public class EntityAdd extends Activity {
     }
 
     private void cleanFields() {
-        valueText.setText("");
+        valueText.setText("$0.00");
+        titleText.setText("");
+        titleText.requestFocus();
     }
 
     private void configureCategorySpinner() {

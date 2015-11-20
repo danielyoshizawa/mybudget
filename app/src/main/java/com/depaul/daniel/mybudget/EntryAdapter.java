@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 public class EntryAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
@@ -53,6 +55,12 @@ public class EntryAdapter extends BaseAdapter {
 
         TextView value = (TextView) row.findViewById(R.id.EntryValue);
         value.setText(DataValidator.FormatCurrency(context, Double.parseDouble(entry.GetValue())));
+
+        TextView title = (TextView) row.findViewById(R.id.EntryTitle);
+        title.setText(entry.GetTitle());
+
+        TextView category = (TextView) row.findViewById(R.id.EntryCategory);
+        category.setText(entry.GetCategory().GetName());
 
         return row;
     }

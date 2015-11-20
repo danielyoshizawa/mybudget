@@ -6,13 +6,15 @@ package com.depaul.daniel.mybudget;
 
 public class Entry {
 
+    private String title;
     private double value;
     private boolean isIncome;
     private double latitude;
     private double longitude;
     private Category category;
 
-    public Entry(double value, boolean isIncome, double latitude, double longitude, Category category) {
+    public Entry(String title, double value, boolean isIncome, double latitude, double longitude, Category category) {
+        this.title = title;
         this.value = value;
         this.isIncome = isIncome;
         this.latitude = latitude;
@@ -20,13 +22,13 @@ public class Entry {
         this.category = category;
     }
 
-    public void SetValue(double value) {
-        this.value = value;
-    }
+    public void SetValue(double value) { this.value = value; }
 
-    public void SetIsIncome(boolean isIncome) {
-        this.isIncome = isIncome;
-    }
+    public void SetIsIncome(boolean isIncome) { this.isIncome = isIncome; }
+
+    public void SetTitle(String title) { this.title = title; }
+
+    public String GetTitle() { return this.title; }
 
     public String GetValue() {
         return Double.toString(value);

@@ -14,7 +14,6 @@ public class MyBudget extends Activity {
 
     private ListView listView;
     private Button addButton;
-    private Button mapButton;
     private EntryAdapter entryAdapter;
     private TextView totalValueLabel;
     private TextView incomeValueLabel;
