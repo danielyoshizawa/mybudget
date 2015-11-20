@@ -51,7 +51,6 @@ public class MyBudget extends Activity {
 
     private void inflate() {
         addButton = (Button) findViewById(R.id.button_add_activity);
-        mapButton = (Button) findViewById(R.id.button_map_activity);
         listView = (ListView) findViewById(R.id.entry_list);
         totalValueLabel = (TextView) findViewById(R.id.total_label);
         incomeValueLabel = (TextView) findViewById(R.id.income_label);
@@ -62,7 +61,6 @@ public class MyBudget extends Activity {
         listView.setAdapter(entryAdapter);
         listView.setOnItemClickListener(new ListViewOnClickListener(this, MyBudget.this));
         addButton.setOnClickListener(new AddOnClickListener(this, MyBudget.this));
-        mapButton.setOnClickListener(new MapOnClickListener(this, MyBudget.this));
     }
 
     private void addCategories() {

@@ -70,12 +70,6 @@
                 android:layout_height="wrap_content"
                 android:text="Add Entry"/>
 
-            <Button
-                android:id="@+id/button_map_activity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Map" />
-
         </LinearLayout>
 
 

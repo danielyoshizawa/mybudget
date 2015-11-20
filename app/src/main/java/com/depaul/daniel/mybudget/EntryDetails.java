@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +13,19 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.json.JSONException;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.lang.reflect.Array;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import org.json.JSONException;
 import java.util.ArrayList;
 
 public class EntryDetails extends Activity {
@@ -33,7 +42,11 @@ public class EntryDetails extends Activity {
     private TextView currencyLabel;
     private ArrayList<Currency> currencyList;
 
-    private static String currencyWanted = "", currencyValue = "";
+    // Constant for defining latitude and longitude
+    static final LatLng DerekPos = new LatLng(40 , -79);
+
+    // GoogleMap class
+    private GoogleMap googleMap;
 
 
     @Override
@@ -66,6 +79,28 @@ public class EntryDetails extends Activity {
             latitudeLabel.setText(thisEntry.GetLatitude());
             longitudeLabel.setText(thisEntry.GetLongitude());
             categoryLabel.setText(thisEntry.GetCategory().GetName());
+
+            try {
+                if (googleMap == null) {
+                    googleMap = ((MapFragment) getFragmentManager().
+                            findFragmentById(R.id.map)).getMap();
+                }
+
+                LatLng location = new LatLng(Double.parseDouble(thisEntry.GetLatitude()),
+                        Double.parseDouble(thisEntry.GetLongitude()));
+
+                googleMap.addMarker(new MarkerOptions().position(location).title(thisEntry.GetValue()));
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+                CameraUpdate center = CameraUpdateFactory.newLatLng(location);
+                CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+
+                googleMap.moveCamera(center);
+                googleMap.animateCamera(zoom);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
     }
