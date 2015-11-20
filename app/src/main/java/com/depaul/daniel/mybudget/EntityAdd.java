@@ -14,8 +14,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import java.util.ArrayList;
-
 // TODO : Extract Listeners
 // TODO : Garanty consistency
 public class EntityAdd extends Activity {
@@ -113,7 +111,7 @@ public class EntityAdd extends Activity {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
-                Intent intent = new Intent(context, CategoryAdd.class);
+                Intent intent = new Intent(context, CategoryEdit.class);
                 context.startActivity(intent);
             }
         });
