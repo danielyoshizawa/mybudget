@@ -14,6 +14,7 @@ public class CategoryEdit extends AppCompatActivity {
     private Button addButton, cancelButton;
     private ListView list;
     private CategoryAdapter adapter;
+    private DataValidator dataValidator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class CategoryEdit extends AppCompatActivity {
 
     private void initialize() {
         Categories = CategoryManager.getInstance();
+        dataValidator = new DataValidator(this);
     }
 
     private void inflate() {
@@ -41,8 +43,10 @@ public class CategoryEdit extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Categories.Add(new Category(categoryName.getText().toString()));
-                finish();
+                if(dataValidator.bySize(categoryName.getText().toString(), "Category Name", 3, 20)) {
+                    Categories.Add(new Category(categoryName.getText().toString()));
+                    finish();
+                }
             }
         });
 
