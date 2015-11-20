@@ -2,6 +2,7 @@ package com.depaul.daniel.mybudget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,12 +48,6 @@ public class EntryAdapter extends BaseAdapter {
 
         Entry entry = Entries.GetEntryAt(position);
 
-        if (entry.IsIncome()) {
-            row.setBackgroundColor(ContextCompat.getColor(context, R.color.light_blue));
-        } else {
-            row.setBackgroundColor(ContextCompat.getColor(context, R.color.light_red));
-        }
-
         TextView value = (TextView) row.findViewById(R.id.EntryValue);
         value.setText(DataValidator.FormatCurrency(context, Double.parseDouble(entry.GetValue())));
 
@@ -61,6 +56,16 @@ public class EntryAdapter extends BaseAdapter {
 
         TextView category = (TextView) row.findViewById(R.id.EntryCategory);
         category.setText(entry.GetCategory().GetName());
+
+        if (entry.IsIncome()) {
+            category.setBackgroundColor(ContextCompat.getColor(context, R.color.blue));
+            value.setTextColor(ContextCompat.getColor(context, R.color.blue));
+            title.setTextColor(ContextCompat.getColor(context, R.color.blue));
+        } else {
+            category.setBackgroundColor(ContextCompat.getColor(context, R.color.red));
+            value.setTextColor(ContextCompat.getColor(context, R.color.red));
+            title.setTextColor(ContextCompat.getColor(context, R.color.red));
+        }
 
         return row;
     }

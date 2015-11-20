@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,7 +15,7 @@ import android.widget.TextView;
 public class MyBudget extends Layout {
 
     private ListView listView;
-    private Button addButton;
+    private LinearLayout addButton;
     private EntryAdapter entryAdapter;
     private TextView totalValueLabel;
     private TextView incomeValueLabel;
@@ -39,9 +40,18 @@ public class MyBudget extends Layout {
         super.onResume();
         entryAdapter.notifyDataSetChanged();
 
-        totalValueLabel.setText(entryManager.GetTotal());
-        incomeValueLabel.setText(entryManager.GetIncome());
-        spendValueLabel.setText(entryManager.GetSpend());
+        String total = DataValidator.FormatCurrency(this, Double.parseDouble(entryManager.GetTotal()));
+
+        if(Double.parseDouble(entryManager.GetTotal()) > 0) {
+            totalValueLabel.setText("FINANCIAL STATUS: OK, YOU STILL HAVE "+total);
+        } else if(Double.parseDouble(entryManager.GetTotal()) < 0) {
+            totalValueLabel.setText("FINANCIAL STATUS: BAD, YOU OWE "+total);
+        } else {
+            totalValueLabel.setText("FINANCIAL STATUS: DON'T HAVE MONEY OR DEBTS");
+        }
+
+        incomeValueLabel.setText(DataValidator.FormatCurrency(this, Double.parseDouble(entryManager.GetIncome())));
+        spendValueLabel.setText(DataValidator.FormatCurrency(this, Double.parseDouble(entryManager.GetSpend())));
     }
 
     private void initialize() {
@@ -51,7 +61,7 @@ public class MyBudget extends Layout {
     }
 
     private void inflate() {
-        addButton = (Button) findViewById(R.id.button_add_activity);
+        addButton = (LinearLayout) findViewById(R.id.button_plus_record);
         listView = (ListView) findViewById(R.id.entry_list);
         totalValueLabel = (TextView) findViewById(R.id.total_label);
         incomeValueLabel = (TextView) findViewById(R.id.income_label);

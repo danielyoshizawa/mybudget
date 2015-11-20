@@ -1,78 +1,173 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context=".MyBudget">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <ListView
-            android:id="@+id/entry_list"
+        <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="80dp"
-            android:background="@color/blue">
-        </ListView>
+            android:layout_height="wrap_content">
 
-        <GridLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:rowCount="3"
-            android:columnCount="2"
-            android:layout_weight="1">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total"/>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Overview"
+                android:id="@+id/label_overview"
+                android:textColor="#2a2a2a"
+                android:textSize="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:id="@+id/overview"
+                android:layout_below="@+id/label_overview"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linear1"
+                    android:baselineAligned="false">
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/linear2"
+                        android:background="#005ba1"
+                        android:gravity="center_horizontal"
+                        android:layout_marginRight="2.5dp"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/income_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$0.00"
+                            android:textColor="#ffffff"
+                            android:textSize="20dp"
+                            android:textIsSelectable="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="INCOME"
+                            android:id="@+id/textView2"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/linear3"
+                        android:background="#a10000"
+                        android:gravity="center_horizontal"
+                        android:layout_marginLeft="2.5dp"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/spend_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$0.00"
+                            android:textColor="#ffffff"
+                            android:textSize="20dp"
+                            android:textIsSelectable="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="OUTCOME"
+                            android:id="@+id/textView3"
+                            android:textColor="#ffffff" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="#00486e"
+                    android:layout_marginTop="5dp"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/total_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textSize="15dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
             <TextView
-                android:id="@+id/total_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="0"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Income"/>
-            <TextView
-                android:id="@+id/income_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Spend"/>
-            <TextView
-                android:id="@+id/spend_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"/>
-        </GridLayout>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Your Transactions"
+                android:id="@+id/label_transactions"
+                android:textColor="#2a2a2a"
+                android:layout_below="@+id/overview"
+                android:textSize="20dp"
+                android:layout_margin="10dp" />
+
+            <ListView
+                android:id="@+id/entry_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/label_transactions"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="60dp"
+                android:layout_weight="1">
+            </ListView>
+
+        </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center|bottom">
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/button_plus_record"
+            android:background="#005ba1"
+            android:gravity="center"
+            android:padding="10dp">
 
-            <!-- Change this Buttons for Images -->
-            <Button
-                android:id="@+id/button_add_activity"
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/plus" />
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Entry"/>
-
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Add record"
+                android:id="@+id/textView4"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="15dp"
+                android:textSize="25dp" />
         </LinearLayout>
 
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
