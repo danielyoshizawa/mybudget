@@ -3,11 +3,12 @@ package com.depaul.daniel.mybudget;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class CategoryEdit extends AppCompatActivity {
+public class CategoryEdit extends Layout {
 
     private CategoryManager Categories;
     private EditText categoryName;
@@ -19,7 +20,8 @@ public class CategoryEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_edit);
+        ViewGroup vg = (ViewGroup) findViewById(R.id.content);
+        ViewGroup.inflate(this, R.layout.activity_category_edit, vg);
 
         initialize();
         inflate();

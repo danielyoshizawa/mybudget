@@ -11,6 +11,7 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,7 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-public class EntryEdit extends AppCompatActivity {
+public class EntryEdit extends Layout {
 
     private Button editButton;
     private Button cleanButton;
@@ -44,7 +45,8 @@ public class EntryEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry_edit);
+        ViewGroup vg = (ViewGroup) findViewById(R.id.content);
+        ViewGroup.inflate(this, R.layout.activity_entry_edit, vg);
 
         initialize();
         inflate();

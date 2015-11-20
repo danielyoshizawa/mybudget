@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -28,7 +29,7 @@ import android.support.v7.app.AppCompatActivity;
 import org.json.JSONException;
 import java.util.ArrayList;
 
-public class EntryDetails extends Activity {
+public class EntryDetails extends Layout {
 
     private int position;
     private EntryManager Entries;
@@ -42,17 +43,14 @@ public class EntryDetails extends Activity {
     private TextView currencyLabel;
     private ArrayList<Currency> currencyList;
 
-    // Constant for defining latitude and longitude
-    static final LatLng DerekPos = new LatLng(40 , -79);
-
-    // GoogleMap class
     private GoogleMap googleMap;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry_details);
+        ViewGroup vg = (ViewGroup) findViewById(R.id.content);
+        ViewGroup.inflate(this, R.layout.activity_entry_details, vg);
 
         initialize();
         inflate();

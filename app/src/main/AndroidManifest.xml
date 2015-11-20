@@ -51,6 +51,10 @@
             android:name=".EntryEdit"
             android:label="@string/title_activity_entry_edit" >
         </activity>
+        <activity
+            android:name=".Layout"
+            android:label="@string/title_activity_layout" >
+        </activity>
     </application>
 
 </manifest>

@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 // TODO : Create a GUI Manager
 
-public class MyBudget extends Activity {
+public class MyBudget extends Layout {
 
     private ListView listView;
     private Button addButton;
@@ -24,7 +25,8 @@ public class MyBudget extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_budget);
+        ViewGroup vg = (ViewGroup) findViewById(R.id.content);
+        ViewGroup.inflate(MyBudget.this, R.layout.activity_my_budget, vg);
 
         initialize();
         inflate();

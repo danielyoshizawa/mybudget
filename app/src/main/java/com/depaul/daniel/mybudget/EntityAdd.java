@@ -12,9 +12,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,7 +24,7 @@ import android.widget.Spinner;
 
 // TODO : Extract Listeners
 // TODO : Garanty consistency
-public class EntityAdd extends Activity {
+public class EntityAdd extends Layout {
 
     private Button addButton;
     private Button cleanButton;
@@ -49,7 +49,8 @@ public class EntityAdd extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entry_add);
+        ViewGroup vg = (ViewGroup) findViewById(R.id.content);
+        ViewGroup.inflate(this, R.layout.activity_entry_add, vg);
 
         initialize();
         inflate();
