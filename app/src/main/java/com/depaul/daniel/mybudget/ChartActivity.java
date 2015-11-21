@@ -21,6 +21,8 @@ public class ChartActivity extends Layout {
     private ArrayList<Double> spendsPerCategory;
     private ArrayList<Integer> colorsVector;
     private DefaultRenderer defaultRenderer;
+    private CategorySeries distributionSeries;
+    private LinearLayout chartContainer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class ChartActivity extends Layout {
         ViewGroup.inflate(this, R.layout.activity_chart, vg);
 
         initialize();
+        inflate();
         configure();
         openChart();
     }
@@ -39,6 +42,11 @@ public class ChartActivity extends Layout {
         defaultRenderer = new DefaultRenderer();
         spendsPerCategory = new ArrayList<Double>();
         colorsVector = new ArrayList<Integer>();
+        distributionSeries = new CategorySeries("Spends per Category");
+    }
+
+    private void inflate() {
+        chartContainer = (LinearLayout) findViewById(R.id.chart);
     }
 
     private void configure() {
@@ -67,32 +75,47 @@ public class ChartActivity extends Layout {
 
     private void openChart() {
 
-        CategorySeries distributionSeries = new CategorySeries("Spends per Category");
+        if(entryManager.Size() == 0) {
+            return;
+        }
 
+        populateDistributionSeries();
+        configureDefaulRenderer();
+        initializeChart();
+    }
+
+    private void populateDistributionSeries() {
         for (int i = 0; i < categoriesNames.size(); i++) {
             distributionSeries.add(categoriesNames.get(i), spendsPerCategory.get(i));
         }
+    }
+
+    private void configureDefaulRenderer() {
+
+        SimpleSeriesRenderer seriesRenderer;
 
         for (int i = 0; i < categoriesNames.size(); i++) {
-            SimpleSeriesRenderer seriesRenderer = new SimpleSeriesRenderer(); // TODO check if more than one is necessary
+            seriesRenderer = new SimpleSeriesRenderer();
             seriesRenderer.setColor(colorsVector.get(i));
-            defaultRenderer.setBackgroundColor(Color.WHITE); // TODO check if is necessary to reconfig every time
-            defaultRenderer.setApplyBackgroundColor(true);
             defaultRenderer.addSeriesRenderer(seriesRenderer);
         }
 
-        defaultRenderer.setChartTitle("Spends per Category"); // TODO change title
-        defaultRenderer.setChartTitleTextSize(60); // TODO change title size
+
+        defaultRenderer.setBackgroundColor(Color.WHITE);
+        defaultRenderer.setApplyBackgroundColor(true);
+        defaultRenderer.setChartTitle("Spends per Category");
+        defaultRenderer.setChartTitleTextSize(60);
         defaultRenderer.setZoomButtonsVisible(false);
         defaultRenderer.setLegendTextSize(30);
         defaultRenderer.setLabelsTextSize(30);
+        defaultRenderer.setLabelsColor(Color.BLACK);
+        defaultRenderer.setAxesColor(Color.BLACK);
+    }
 
-
-
-        LinearLayout chartContainer = (LinearLayout) findViewById(R.id.chart);
+    private void initializeChart() {
         chartContainer.removeAllViews();
         mChart = ChartFactory.getPieChartView(getBaseContext(), distributionSeries, defaultRenderer);
         chartContainer.addView(mChart);
-        }
-
     }
+
+}

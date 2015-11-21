@@ -10,14 +10,22 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-    <LinearLayout
-        android:id="@+id/chart"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        tools:ignore="Orientation" >
-    </LinearLayout>
+        <TextView
+            android:id="@+id/chart_warning_label"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="40dp"
+            android:text="No data to be displayed"/>
+
+        <LinearLayout
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            tools:ignore="Orientation" >
+        </LinearLayout>
 
     </RelativeLayout>
 </LinearLayout>
